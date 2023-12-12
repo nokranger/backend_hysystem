@@ -1,0 +1,15 @@
+{
+  "name": "hrsystem",
+  "version": "1.0.0",
+  "description": "hrsystem",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "nokranger",
+  "license": "ISC",
+  "dependencies": {
+    "express-fileupload": "^1.4.3",
+    "mysql": "^2.18.1"
+  }
+}
