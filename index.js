@@ -7,6 +7,7 @@ const app = express();
 const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
 
+
 // Middleware for handling file uploads
 app.use(fileUpload());
 
@@ -24,8 +25,11 @@ app.use((req, res, next) =>{
 // bodyparser is deprecate
 // app.use(bodyParser.urlencoded({extended : false}))
 // app.use(bodyParser.json())
-app.use(express.urlencoded(({ extended: true })))
-app.use(express.json())
+// app.use(express.urlencoded(({ extended: true })))
+// app.use(express.json())
+// Increase the limit (default is 100kb)
+app.use(bodyParser.json({ limit: '500mb' }));
+app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
 
 // MySQL connection configuration
 var connection = mysql.createPool({
@@ -84,6 +88,64 @@ app.post('/personal', (req, res) => {
 })
 
 app.get('/personals', (req, res) => {
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT * FROM employee", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          console.log('result is :', result)
+          console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
+
+app.post('/welfare', (req, res) => {
+  // console.log('DATA: ', req.body[1].empCode)
+  const rows = []
+  for (let i = 0; i < req.body.length; i++) {
+    rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, req.body[i].DEPARTURE_DATETIME, req.body[i].YARDOUTDATE, req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG])
+    // rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, req.body[i].DEPARTURE_DATETIME, req.body[i].YARDOUTDATE, req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG])
+    // rows.push([`emp_code${i}`, `name${i}`, `bank_account_number${i}`])
+  }
+  // console.log('data', rows)
+  // console.log('DATA: ', req.body.pallet)
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      console.log("Connected!")
+      var sql = 'INSERT INTO welfare (TRIP_NO, TRIP_ALLOWANCE, TOTAL_ALLOWANCE, OT_HOURS, DEPARTURE_POINT, DEPARTURE_DATETIME, YARDOUTDATE, DRIVER1, NAME, DRIVER2, NULLS, DEALER1, DEALER2, DEALER3, DEALER4, DEALER5, UNITS1, UNITS2, UNITS3, UNITS4, UNITS5, TAX_FLAG) VALUES ?';
+      var value = [req.body.emp_code, req.body.name, req.body.bank_account_number];
+      console.log('dataSQL', sql)
+      console.log('dataROWs', [rows])
+      if (err) throw err
+      connection.query(sql, [rows], (err, result, fields) => {
+        console.log('sql queryplan')
+        console.log('result is :', result)
+        console.log('fields is :', result)
+        if (err) {
+          console.error('Error inserting rows:', err);
+          res.status(500).send('Internal Server Error');
+        } else {
+          console.log(`Inserted ${result.affectedRows} rows successfully`);
+          res.status(200).send('Data inserted successfully');
+        } 
+      con.release()
+      })
+    })
+    console.log('done selected')
+})
+
+app.get('/welfares', (req, res) => {
   connection.getConnection((err, con) => {
       if (err) throw err
       connection.query("SELECT * FROM employee", (err, result, fields) => {
