@@ -10,6 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "express-fileupload": "^1.4.3",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "body-parser": "^1.19.2",
+    "emailjs": "^4.0.0",
+    "emailjs-com": "^3.2.0",
+    "express": "^4.17.3",
+    "http": "^0.0.1-security",
+    "nodemailer": "^6.7.5",
+    "sib-api-v3-sdk": "^8.3.0"
   }
 }
