@@ -83,6 +83,29 @@ app.post('/personal', (req, res) => {
     console.log('done selected')
 })
 
+app.get('/personals', (req, res) => {
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT * FROM employee", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          console.log('result is :', result)
+          console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
+
 // API endpoint for handling file upload
 app.post('/upload', (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
