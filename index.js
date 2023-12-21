@@ -28,8 +28,8 @@ app.use((req, res, next) =>{
 // app.use(express.urlencoded(({ extended: true })))
 // app.use(express.json())
 // Increase the limit (default is 100kb)
-app.use(bodyParser.json({ limit: '500mb' }));
-app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // MySQL connection configuration
 var connection = mysql.createPool({
@@ -114,7 +114,7 @@ app.post('/welfare', (req, res) => {
   // console.log('DATA: ', req.body[1].empCode)
   const rows = []
   for (let i = 0; i < req.body.length; i++) {
-    rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, req.body[i].DEPARTURE_DATETIME, req.body[i].YARDOUTDATE, req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG])
+    rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, req.body[i].DEPARTURE_DATETIME, req.body[i].YARDOUTDATE, req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS])
     // rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, req.body[i].DEPARTURE_DATETIME, req.body[i].YARDOUTDATE, req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG])
     // rows.push([`emp_code${i}`, `name${i}`, `bank_account_number${i}`])
   }
@@ -123,15 +123,50 @@ app.post('/welfare', (req, res) => {
   connection.getConnection((err, con) => {
       if (err) throw err
       console.log("Connected!")
-      var sql = 'INSERT INTO welfare (TRIP_NO, TRIP_ALLOWANCE, TOTAL_ALLOWANCE, OT_HOURS, DEPARTURE_POINT, DEPARTURE_DATETIME, YARDOUTDATE, DRIVER1, NAME, DRIVER2, NULLS, DEALER1, DEALER2, DEALER3, DEALER4, DEALER5, UNITS1, UNITS2, UNITS3, UNITS4, UNITS5, TAX_FLAG) VALUES ?';
+      var sql = 'INSERT INTO welfare (TRIP_NO, TRIP_ALLOWANCE, TOTAL_ALLOWANCE, OT_HOURS, DEPARTURE_POINT, DEPARTURE_DATETIME, YARDOUTDATE, DRIVER1, NAME, DRIVER2, NULLS) VALUES ?';
       var value = [req.body.emp_code, req.body.name, req.body.bank_account_number];
-      console.log('dataSQL', sql)
-      console.log('dataROWs', [rows])
+      // console.log('dataSQL', sql)
+      // console.log('dataROWs', [rows])
       if (err) throw err
       connection.query(sql, [rows], (err, result, fields) => {
         console.log('sql queryplan')
-        console.log('result is :', result)
-        console.log('fields is :', result)
+        // console.log('result is :', result)
+        // console.log('fields is :', result)
+        if (err) {
+          console.error('Error inserting rows:', err);
+          res.status(500).send('Internal Server Error');
+        } else {
+          console.log(`Inserted ${result.affectedRows} rows successfully`);
+          res.status(200).send('Data inserted successfully');
+        } 
+      con.release()
+      })
+    })
+    console.log('done selected')
+})
+
+app.post('/welfare2', (req, res) => {
+  // console.log('DATA: ', req.body[1].empCode)
+  const rows = []
+  for (let i = 0; i < req.body.length; i++) {
+    rows.push([req.body[i].TRIP_NO, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG])
+    // rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, req.body[i].DEPARTURE_DATETIME, req.body[i].YARDOUTDATE, req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG])
+    // rows.push([`emp_code${i}`, `name${i}`, `bank_account_number${i}`])
+  }
+  // console.log('data', rows)
+  // console.log('DATA: ', req.body.pallet)
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      console.log("Connected!")
+      var sql = 'INSERT INTO welfare2 (TRIP_NO, DEALER1, DEALER2, DEALER3, DEALER4, DEALER5, UNITS1, UNITS2, UNITS3, UNITS4, UNITS5, TAX_FLAG) VALUES ?';
+      var value = [req.body.emp_code, req.body.name, req.body.bank_account_number];
+      // console.log('dataSQL', sql)
+      // console.log('dataROWs', [rows])
+      if (err) throw err
+      connection.query(sql, [rows], (err, result, fields) => {
+        console.log('sql queryplan')
+        // console.log('result is :', result)
+        // console.log('fields is :', result)
         if (err) {
           console.error('Error inserting rows:', err);
           res.status(500).send('Internal Server Error');
