@@ -444,7 +444,7 @@ app.get('/welfares', (req, res) => {
 app.get('/masterdata', (req, res) => {
   connection.getConnection((err, con) => {
       if (err) throw err
-      connection.query("SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage,  allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, bank_account_number FROM tnos_system5 as tnos5 INNER JOIN employee as emp on tnos5.ttt_employee_code = emp.emp_code;", (err, result, fields) => {
+      connection.query("SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage,  allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, TAX_FLAG FROM tnos_system5;", (err, result, fields) => {
         if (err) throw err
           console.log('sql queryplan')
           // console.log('result is :', result)
@@ -464,6 +464,53 @@ app.get('/masterdata', (req, res) => {
     console.log('done selected')
 })
 
+app.get('/welfaregetdata', (req, res) => {
+  console.log('welfaregetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT welfare.TRIP_NO, welfare.DRIVER1, welfare.NAME, welfare.DEPARTURE_DATETIME, welfare.YARDOUTDATE, welfare2.DEALER1, welfare.TRIP_ALLOWANCE, welfare.OT_HOURS, welfare2.UNITS1, welfare2.TAX_FLAG from welfare INNER JOIN welfare2 on welfare.TRIP_NO = welfare2.TRIP_NO;", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          // console.log('result is :', result)
+          // console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
+
+app.get('/instructorgetdata', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT instructor_controller.number, instructor_controller.TRIP_NO, instructor_controller.DRIVER1, instructor_controller.NAME, instructor_controller.DEPARTURE_DATETIME, instructor_controller.DEPARTURE_DATETIME2, instructor_controller2.DEALER1, instructor_controller.TRIP_ALLOWANCE, instructor_controller2.UNITS1, instructor_controller2.TAX_FLAG from instructor_controller INNER JOIN instructor_controller2 on instructor_controller.TRIP_NO = instructor_controller2.TRIP_NO;", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          // console.log('result is :', result)
+          // console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
 // API endpoint for handling file upload
 app.post('/upload', (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
