@@ -511,6 +511,98 @@ app.get('/instructorgetdata', (req, res) => {
     })
     console.log('done selected')
 })
+app.get('/getdataattach7', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,tnos_system5.total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          // console.log('result is :', result)
+          // console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
+app.get('/getdataattach8', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot FROM tnos_system5 WHERE tnos_system5.ttt_employee_code = '641610';", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          // console.log('result is :', result)
+          // console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
+app.get('/getdataattach9', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT tnos_system5.ttt_employee_code ,tnos_system5.tlep_driver_name, tnos_system5.total_ot FROM tnos_system5 GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          // console.log('result is :', result)
+          // console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
+app.get('/getdataattach10', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      connection.query("SELECT tnos_system5.calling_sheet_no ,tnos_system5.company_name, tnos_system5.standard_ot,total_allowance FROM tnos_system5 WHERE tnos_system5.ttt_employee_code = '043331';", (err, result, fields) => {
+        if (err) throw err
+          console.log('sql queryplan')
+          // console.log('result is :', result)
+          // console.log('fields is :', result)
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
 // API endpoint for handling file upload
 app.post('/upload', (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
