@@ -1,11 +1,14 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const mysql = require('mysql');
+const http = require('http');
+const fs = require('fs');
 
 const app = express();
 // const route = express.Router()
 const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
+// const { PDFDocument, rgb } = PDFLib
 
 
 // Middleware for handling file uploads
@@ -832,6 +835,18 @@ app.post('/getdatapayrollallowance3', (req, res) => {
       // })
     })
     console.log('done selected')
+})
+app.get('/pdfget', (req, res) => {
+  fs.readFile('./pdf.html', function (err, html) {
+    if (err) {
+        throw err; 
+    }       
+    http.createServer(function(request, response) {  
+        response.writeHeader(200, {"Content-Type": "text/html"});  
+        response.write(html);  
+        response.end();  
+    }).listen(8000);
+});
 })
 // API endpoint for handling file upload
 app.post('/upload', (req, res) => {
