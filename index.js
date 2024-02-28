@@ -514,6 +514,29 @@ app.post('/instructorgetdata', (req, res) => {
     })
     console.log('done selected')
 })
+app.post('/getdataattach7one', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code AND STR_TO_DATE(tnos_system5.Working_date, '%d/%m/%Y') BETWEEN ? AND ? WHERE emp_code = ? GROUP BY tnos_system5.ttt_employee_code;"
+      var value = [req.body.from, req.body.to, req.body.emp_code];
+      // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code AND STR_TO_DATE(tnos_system5.Working_date, '%d/%m/%Y') BETWEEN ? AND ? GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+        if (err) throw err
+        connection.query(sql, value, (err, result, fields) => {
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
 app.post('/getdataattach7', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
@@ -590,6 +613,29 @@ app.post('/getdataattach8', (req, res) => {
       var sql = "SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY STR_TO_DATE(Working_date, '%d/%m/%Y');"
       var value = [req.body.from, req.body.to];
       // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
+        if (err) throw err
+        connection.query(sql, value, (err, result, fields) => {
+          if (err) {
+            console.error('Error inserting rows:', err);
+            res.status(500).send('Internal Server Error');
+          } else {
+            console.log(`Inserted ${result.affectedRows} rows successfully`);
+            res.status(200).json({
+              result: result
+            });
+          } 
+        con.release()
+      })
+    })
+    console.log('done selected')
+})
+app.post('/getdataattach9one', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+      if (err) throw err
+      var sql = "SELECT tnos_system5.ttt_employee_code ,tnos_system5.tlep_driver_name, sum(tnos_system5.total_ot) as total_ot FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? AND ttt_employee_code = ? GROUP BY tnos_system5.ttt_employee_code;"
+      var value = [req.body.from, req.body.to, req.body.emp_code];
+      // connection.query("SELECT tnos_system5.ttt_employee_code ,tnos_system5.tlep_driver_name, sum(tnos_system5.total_ot) as total_ot FROM tnos_system5 GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
         if (err) throw err
         connection.query(sql, value, (err, result, fields) => {
           if (err) {
