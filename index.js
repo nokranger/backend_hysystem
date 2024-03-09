@@ -39,7 +39,8 @@ var connection = mysql.createPool({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database: 'hrsystem'
+  database: 'hrsystem',
+  multipleStatements : true
 });
 
 // Connect to MySQL
@@ -966,40 +967,46 @@ app.post('/addpaymentstatusattach7', (req, res) => {
   const rows = []
   const rows2 = [
     {
-      payment_status: '0',
-      emp_code: '23456'
+      payment_status: '1',
+      emp_code: '641610'
     },
     {
-      payment_status: '1',
-      emp_code: '12345'
+      payment_status: '0',
+      emp_code: '651604'
     }
   ]
   console.log('instructorgetdata', req.body[1].payment_status)
-  for (let i = 0; i < req.body.length; i++) {
-    rows.push(`UPDATE tnos_system5 SET payment_status = ${req.body[i].payment_status} WHERE ttt_employee_code = ${req.body[i].emp_code}`)
+  // for (let i = 0; i < req.body.length; i++) {
+    // rows.push(`UPDATE tnos_system5 SET payment_status = ${rows2[i].payment_status} WHERE ttt_employee_code = ${rows2[i].emp_code}`)
+    // `UPDATE tnos_system5 SET payment_status = (case when ttt_employee_code = ${rows2[i].emp_code} then ${rows2[i].payment_status} END) WHERE ttt_employee_code in (${rows2[i].emp_code});`
     // rows.push([`emp_code${i}`, `name${i}`, `bank_account_number${i}`])
-  }
+  // }
+  // var queries = '';
+
+  //   rows2.forEach(function (item) {
+  //     queries += mysql.format("UPDATE tnos_system5 SET payment_status = ? WHERE ttt_employee_code = ?; ", item);
+  //   });
   console.log('instructorgetdata', rows)
   connection.getConnection((err, con) => {
-    for (let i = 0; i < req.body.length; i++) {
+    for (let i = 0; i < rows2.length; i++) {
       // rows.push(`UPDATE tnos_system5 SET payment_status = ${req.body[i].payment_status} WHERE ttt_employee_code = ${req.body[i].emp_code}`)
       // rows.push([`emp_code${i}`, `name${i}`, `bank_account_number${i}`])
       if (err) throw err
-      var sql = `UPDATE tnos_system5 SET payment_status = ${req.body[i].payment_status} WHERE ttt_employee_code = ${req.body[i].emp_code}`;
+      var sql = `UPDATE tnos_system5 SET payment_status = (case when ttt_employee_code = ${rows2[i].emp_code} then '${rows2[i].payment_status}' END) WHERE ttt_employee_code in (${rows2[i].emp_code});`;
       var value = [req.body.payment_status, req.body.emp_code];
       // connection.query("SELECT DRIVER1 as EMP_CODE, sum(total_allowance) as ALLOWANCE FROM instructor_controller GROUP BY DRIVER1;", (err, result, fields) => {
         if (err) throw err
         connection.query(sql, (err, result, fields) => {
           if (err) {
             console.error('Error inserting rows:', err);
-            res.status(500).send('Internal Server Error');
+            return res.status(500).send('Internal Server Error');
           } else {
             console.log(`Inserted ${result.affectedRows} rows successfully`);
-            res.status(200).json({
-              result: result
-            });
+            // return res.status(200).json({
+            //   result: result
+            // });
           } 
-        con.release()
+        // con.release()
       })
     }
     con.release()
