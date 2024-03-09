@@ -39,8 +39,7 @@ var connection = mysql.createPool({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database: 'hrsystem',
-  multipleStatements : true
+  database: 'hrsystem'
 });
 
 // Connect to MySQL
