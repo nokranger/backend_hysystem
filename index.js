@@ -274,7 +274,7 @@ app.post('/masterdata', (req, res) => {
   console.log('masterdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage, allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, TAX_FLAG, payment_status_2, payment_date_st FROM tnos_system5 WHERE DATE(recieve_job_dateandtime) BETWEEN ? AND ? GROUP BY ttt_employee_code;"
+    var sql = "SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage, allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, TAX_FLAG, payment_status_2, payment_date_st FROM tnos_system5 WHERE DATE(recieve_job_dateandtime) BETWEEN ? AND ?"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage,  allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, TAX_FLAG FROM tnos_system5;", (err, result, fields) => {
     if (err) throw err
@@ -298,7 +298,7 @@ app.post('/welfaregetdata', (req, res) => {
   console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TRIP_ALLOWANCE, OT_HOURS, UNITS1, TAX_FLAG, payment_status_2, payment_date_st from welfare WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? GROUP BY DRIVER1;"
+    var sql = "SELECT TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, OT_HOURS, UNITS1, TAX_FLAG, payment_status_2, payment_date_st from welfare WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT welfare.TRIP_NO, welfare.DRIVER1, welfare.NAME, welfare.DEPARTURE_DATETIME, welfare.YARDOUTDATE, welfare2.DEALER1, welfare.TRIP_ALLOWANCE, welfare.OT_HOURS, welfare2.UNITS1, welfare2.TAX_FLAG from welfare INNER JOIN welfare2 on welfare.TRIP_NO = welfare2.TRIP_NO;", (err, result, fields) => {
     if (err) throw err
@@ -322,7 +322,7 @@ app.post('/instructorgetdata', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT number, TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TRIP_ALLOWANCE, UNITS1, TAX_FLAG from instructor_controller WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? GROUP BY DRIVER1;"
+    var sql = "SELECT number, TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, UNITS1, TAX_FLAG from instructor_controller WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT instructor_controller.number, instructor_controller.TRIP_NO, instructor_controller.DRIVER1, instructor_controller.NAME, instructor_controller.DEPARTURE_DATETIME, instructor_controller.DEPARTURE_DATETIME2, instructor_controller2.DEALER1, instructor_controller.TRIP_ALLOWANCE, instructor_controller2.UNITS1, instructor_controller2.TAX_FLAG from instructor_controller INNER JOIN instructor_controller2 on instructor_controller.TRIP_NO = instructor_controller2.TRIP_NO;", (err, result, fields) => {
     if (err) throw err
@@ -365,10 +365,10 @@ app.post('/getdataattach7one', (req, res) => {
   console.log('done selected')
 })
 app.post('/getdataattach7', (req, res) => {
-  console.log('instructorgetdata')
+  console.log('tnosgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE STR_TO_DATE(tnos_system5.Working_date, '%d/%m/%Y') BETWEEN ? AND ? AND tnos_system5.payment_status_2 is NULL GROUP BY tnos_system5.ttt_employee_code;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE STR_TO_DATE(tnos_system5.Working_date, '%d/%m/%Y') BETWEEN ? AND ? AND tnos_system5.payment_status_2 is NULL GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code AND STR_TO_DATE(tnos_system5.Working_date, '%d/%m/%Y') BETWEEN ? AND ? GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
@@ -388,10 +388,33 @@ app.post('/getdataattach7', (req, res) => {
   console.log('done selected')
 })
 app.post('/getdataattach72', (req, res) => {
-  console.log('instructorgetdata')
+  console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND welfare.payment_status_2 is NULL GROUP BY welfare.DRIVER1;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance FROM welfare INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND welfare.payment_status_2 is NULL GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,welfare.total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code GROUP BY welfare.DRIVER1;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.post('/getdataattach721', (req, res) => {
+  console.log('welfaregetdata', [req.body.from, req.body.to])
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND welfare.payment_status_2 is NULL GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,welfare.total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code GROUP BY welfare.DRIVER1;", (err, result, fields) => {
     if (err) throw err
@@ -414,7 +437,7 @@ app.post('/getdataattach73', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance FROM instructor_controller INNER JOIN employee on instructor_controller.DRIVER1 = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND instructor_controller.payment_status_2 is NULL GROUP BY instructor_controller.DRIVER1;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance FROM instructor_controller INNER JOIN employee on instructor_controller.DRIVER1 = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND instructor_controller.payment_status_2 is NULL GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,instructor_controller.total_allowance FROM instructor_controller INNER JOIN employee on instructor_controller.DRIVER1 = employee.emp_code AND DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? GROUP BY instructor_controller.DRIVER1;", (err, result, fields) => {
     if (err) throw err
@@ -529,7 +552,7 @@ app.post('/getdataattach8', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code, tnos_system5.over_ot FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY tnos_system5.ttt_employee_code;"
+    var sql = "SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code, tnos_system5.over_ot FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? AND total_ot != 0 AND total_ot IS NOT NULL AND tnos_system5.over_ot != 0 ORDER BY tnos_system5.ttt_employee_code;"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
