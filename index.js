@@ -456,6 +456,29 @@ app.post('/getdataattach73', (req, res) => {
   })
   console.log('done selected')
 })
+app.post('/getdataattach731', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND instructor_controller.payment_status_2 is NULL GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE DATE(recieve_job_dateandtime) BETWEEN ? AND ? AND tnos_system5.payment_status_2 is NULL GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
 app.post('/getdataattach7P', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
