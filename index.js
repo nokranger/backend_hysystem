@@ -1174,8 +1174,8 @@ app.get('/deletewelfare', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT FROM `welfare`;"
-    // var value = [req.body.from, req.body.to, req.body.emp_code];
+    var sql = "DELETE FROM `welfare` WHERE create_time = ?"
+    var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
