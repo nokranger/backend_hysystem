@@ -117,7 +117,7 @@ app.post('/holiday', (req, res) => {
   // console.log('DATA: ', req.body[1].empCode)
   const rows = []
   for (let i = 0; i < req.body.length; i++) {
-    rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, new Date((req.body[i].DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()), new Date((req.body[i].YARDOUTDATE - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()), req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS, , req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG, req.body[i].create_time])
+    rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, new Date((req.body[i].DEPARTURE_DATETIME - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()), new Date((req.body[i].YARDOUTDATE - 1) * 24 * 60 * 60 * 1000 + new Date(1900, 0, 0).getTime()), req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG, req.body[i].create_time])
     // rows.push([req.body[i].TRIP_NO, req.body[i].TRIP_ALLOWANCE, req.body[i].TOTAL_ALLOWANCE, req.body[i].OT_HOURS, req.body[i].DEPARTURE_POINT, req.body[i].DEPARTURE_DATETIME, req.body[i].YARDOUTDATE, req.body[i].DRIVER1, req.body[i].NAME, req.body[i].DRIVER2, req.body[i].NULLS, req.body[i].DEALER1, req.body[i].DEALER2, req.body[i].DEALER3, req.body[i].DEALER4, req.body[i].DEALER5, req.body[i].UNITS1, req.body[i].UNITS2, req.body[i].UNITS3, req.body[i].UNITS4, req.body[i].UNITS5, req.body[i].TAX_FLAG])
     // rows.push([`emp_code${i}`, `name${i}`, `bank_account_number${i}`])
   }
@@ -126,7 +126,7 @@ app.post('/holiday', (req, res) => {
   connection.getConnection((err, con) => {
     if (err) throw err
     console.log("Connected!")
-    var sql = 'INSERT INTO holiday (TRIP_NO, TRIP_ALLOWANCE, TOTAL_ALLOWANCE, OT_HOURS, DEPARTURE_POINT, DEPARTURE_DATETIME, YARDOUTDATE, DRIVER1, NAME, DRIVER2, NULLS, , DEALER1, DEALER2, DEALER3, DEALER4, DEALER5, UNITS1, UNITS2, UNITS3, UNITS4, UNITS5, TAX_FLAG, create_time) VALUES ?';
+    var sql = 'INSERT INTO holiday (TRIP_NO, TRIP_ALLOWANCE, TOTAL_ALLOWANCE, OT_HOURS, DEPARTURE_POINT, DEPARTURE_DATETIME, YARDOUTDATE, DRIVER1, NAME, DRIVER2, DEALER1, DEALER2, DEALER3, DEALER4, DEALER5, UNITS1, UNITS2, UNITS3, UNITS4, UNITS5, TAX_FLAG, create_time) VALUES ?';
     var value = [req.body.emp_code, req.body.name, req.body.bank_account_number];
     // console.log('dataSQL', sql)
     // console.log('dataROWs', [rows])
@@ -1170,6 +1170,29 @@ app.get('/getcomparedata3', (req, res) => {
   })
   console.log('done selected')
 })
+app.get('/getcomparedata4', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT * FROM `holiday`;"
+    // var value = [req.body.from, req.body.to, req.body.emp_code];
+    // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
 app.post('/deletewelfare', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
@@ -1221,6 +1244,29 @@ app.post('/deletetnos', (req, res) => {
   connection.getConnection((err, con) => {
     if (err) throw err
     var sql = 'DELETE FROM `tnos_system5` WHERE create_time = ?'
+    var value = [req.body.create_time];
+    // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log('delete done');
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.post('/deleteholiday', (req, res) => {
+  console.log('instructorgetdata', req.body.create_time)
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = 'DELETE FROM `holiday` WHERE create_time = ?'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1294,6 +1340,167 @@ app.get('/selectdeleteinstructor', (req, res) => {
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.get('/selectdeleteholiday', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = 'SELECT DISTINCT create_time FROM holiday;'
+    var value = [req.body.create_time];
+    // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.post('/getdataattachholiday', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT welfare.DRIVER1, welfare.NAME ,sum(welfare.OT_HOURS) as total_ot FROM welfare WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND OT_HOURS != 0 AND OT_HOURS IS NOT NULL GROUP BY welfare.DRIVER1;"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT welfare.DRIVER1, welfare.NAME ,welfare.OT_HOURS FROM welfare WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? GROUP BY welfare.DRIVER1;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.post('/getdataattachholiday2', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.tlep_driver_name, tnos_system5.calling_sheet_no ,tnos_system5.to_name, tnos_system5.standard_ot,tnos_system5.over_ot, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY tnos_system5.ttt_employee_code;"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT tnos_system5.calling_sheet_no ,tnos_system5.company_name, tnos_system5.standard_ot,total_allowance, tnos_system5.ttt_employee_code FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.get('/searchtrip1', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT * FROM `tnos_system5`"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT tnos_system5.calling_sheet_no ,tnos_system5.company_name, tnos_system5.standard_ot,total_allowance, tnos_system5.ttt_employee_code FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.get('/searchtrip2', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT * FROM `welfare`"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT tnos_system5.calling_sheet_no ,tnos_system5.company_name, tnos_system5.standard_ot,total_allowance, tnos_system5.ttt_employee_code FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.get('/searchtrip3', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT * FROM `instructor_controller`"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT tnos_system5.calling_sheet_no ,tnos_system5.company_name, tnos_system5.standard_ot,total_allowance, tnos_system5.ttt_employee_code FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+        res.status(200).json({
+          result: result
+        });
+      }
+      con.release()
+    })
+  })
+  console.log('done selected')
+})
+app.get('/searchtrip4', (req, res) => {
+  console.log('instructorgetdata')
+  connection.getConnection((err, con) => {
+    if (err) throw err
+    var sql = "SELECT * FROM `holiday`"
+    var value = [req.body.from, req.body.to];
+    // connection.query("SELECT tnos_system5.calling_sheet_no ,tnos_system5.company_name, tnos_system5.standard_ot,total_allowance, tnos_system5.ttt_employee_code FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
+    if (err) throw err
+    connection.query(sql, value, (err, result, fields) => {
       if (err) {
         console.error('Error inserting rows:', err);
         res.status(500).send('Internal Server Error');
