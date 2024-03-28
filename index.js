@@ -274,7 +274,7 @@ app.post('/masterdata', (req, res) => {
   console.log('masterdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage, allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, TAX_FLAG, payment_status_2, payment_date_st, create_time FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ?"
+    var sql = "SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage, allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, TAX_FLAG, payment_status_2, payment_date_st, payment_status_3, payment_date_st_2, create_time FROM tnos_system5 WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ?"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT Working_date,job_code,shift,trip_no,ttt_employee_code,tlep_driver_code,tlep_driver_name,company_code,company_name,trailer_code,trailer_type_code, trailer_type, ttt_payment_status, calling_sheet_no, trip_type, recieve_job_dateandtime, from_code, from_name, yard_out_dateandtime, to_code, to_name, to_in_dateandtime, reture_code, return_name, return_in_dateandtime, loading_units, loading_count, unloading_count, number_of_driver, nd2_employee_code, nd2_tlep_driver_code, nd2_tlep_driver_name, mileage,  allowance, allowance2, allowance3, allowance4, total_allowance, standard_ot, over_ot, total_ot, payment_status, ot_payment_date, allowance_payment_date, TAX_FLAG FROM tnos_system5;", (err, result, fields) => {
     if (err) throw err
@@ -298,7 +298,7 @@ app.post('/welfaregetdata', (req, res) => {
   console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, OT_HOURS, UNITS1, TAX_FLAG, payment_status_2, payment_date_st, create_time from welfare WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
+    var sql = "SELECT TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, OT_HOURS, UNITS1, TAX_FLAG, payment_status_2, payment_date_st, payment_status_3, payment_date_st_2, create_time from welfare WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT welfare.TRIP_NO, welfare.DRIVER1, welfare.NAME, welfare.DEPARTURE_DATETIME, welfare.YARDOUTDATE, welfare2.DEALER1, welfare.TRIP_ALLOWANCE, welfare.OT_HOURS, welfare2.UNITS1, welfare2.TAX_FLAG from welfare INNER JOIN welfare2 on welfare.TRIP_NO = welfare2.TRIP_NO;", (err, result, fields) => {
     if (err) throw err
@@ -321,7 +321,7 @@ app.post('/holidaygetdata', (req, res) => {
   console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, OT_HOURS, UNITS1, TAX_FLAG, payment_status_2, payment_date_st, create_time from holiday WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
+    var sql = "SELECT TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, OT_HOURS, UNITS1, TAX_FLAG, payment_status_2, payment_date_st, payment_status_3, payment_date_st_2, create_time from holiday WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT welfare.TRIP_NO, welfare.DRIVER1, welfare.NAME, welfare.DEPARTURE_DATETIME, welfare.YARDOUTDATE, welfare2.DEALER1, welfare.TRIP_ALLOWANCE, welfare.OT_HOURS, welfare2.UNITS1, welfare2.TAX_FLAG from welfare INNER JOIN welfare2 on welfare.TRIP_NO = welfare2.TRIP_NO;", (err, result, fields) => {
     if (err) throw err
@@ -345,7 +345,7 @@ app.post('/instructorgetdata', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT number, TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, UNITS1, TAX_FLAG, payment_status_2, payment_date_st, create_time from instructor_controller WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
+    var sql = "SELECT number, TRIP_NO, DRIVER1, NAME, DEPARTURE_DATETIME, YARDOUTDATE, DEALER1, TOTAL_ALLOWANCE, UNITS1, TAX_FLAG, payment_status_2, payment_date_st, payment_status_3, payment_date_st_2, create_time from instructor_controller WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ?"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT instructor_controller.number, instructor_controller.TRIP_NO, instructor_controller.DRIVER1, instructor_controller.NAME, instructor_controller.DEPARTURE_DATETIME, instructor_controller.DEPARTURE_DATETIME2, instructor_controller2.DEALER1, instructor_controller.TRIP_ALLOWANCE, instructor_controller2.UNITS1, instructor_controller2.TAX_FLAG from instructor_controller INNER JOIN instructor_controller2 on instructor_controller.TRIP_NO = instructor_controller2.TRIP_NO;", (err, result, fields) => {
     if (err) throw err
