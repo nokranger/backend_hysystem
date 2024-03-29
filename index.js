@@ -1344,6 +1344,114 @@ app.post('/updatepaymentstatus4', (req, res) => {
   })
   console.log('done selected')
 })
+app.post('/updatepaymentstatusholiday', (req, res) => {
+  const rows = []
+  let count = 0
+  console.log('update', req.body)
+  // console.log('instructorgetdata', rows)
+  connection.getConnection((err, con) => {
+    // for (let i = 0; i < req.body.length; i++) {
+    if (err) throw err
+    var sql = `UPDATE holiday SET payment_date_st_ot = '${req.body.payment_date}' WHERE DEPARTURE_DATETIME BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        return res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+          return res.status(200).json({
+            result: '1'
+          });
+      }
+    })
+    con.release()
+
+    // })
+  })
+  console.log('done selected')
+})
+app.post('/updatepaymentstatus2ot', (req, res) => {
+  const rows = []
+  let count = 0
+  console.log('update', req.body)
+  // console.log('instructorgetdata', rows)
+  connection.getConnection((err, con) => {
+    // for (let i = 0; i < req.body.length; i++) {
+    if (err) throw err
+    var sql = `UPDATE welfare SET payment_date_st_ot = '${req.body.payment_date}' WHERE DEPARTURE_DATETIME BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        return res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+          return res.status(200).json({
+            result: '1'
+          });
+      }
+    })
+    con.release()
+
+    // })
+  })
+  console.log('done selected')
+})
+app.post('/updatepaymentstatus3ot', (req, res) => {
+  const rows = []
+  let count = 0
+  console.log('update', req.body)
+  // console.log('instructorgetdata', rows)
+  connection.getConnection((err, con) => {
+    // for (let i = 0; i < req.body.length; i++) {
+    if (err) throw err
+    var sql = `UPDATE tnos_system5 SET payment_date_st_ot = '${req.body.payment_date}' WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        return res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+          return res.status(200).json({
+            result: '1'
+          });
+      }
+    })
+    con.release()
+
+    // })
+  })
+  console.log('done selected')
+})
+app.post('/updatepaymentstatus4ot', (req, res) => {
+  const rows = []
+  let count = 0
+  console.log('update', req.body)
+  // console.log('instructorgetdata', rows)
+  connection.getConnection((err, con) => {
+    // for (let i = 0; i < req.body.length; i++) {
+    if (err) throw err
+    var sql = `UPDATE instructor_controller SET payment_date_st_ot = '${req.body.payment_date}' WHERE DEPARTURE_DATETIME BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        return res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+          return res.status(200).json({
+            result: '1'
+          });
+      }
+    })
+    con.release()
+
+    // })
+  })
+  console.log('done selected')
+})
 app.post('/updatepaymentstatus22', (req, res) => {
   const rows = []
   let count = 0
@@ -1433,7 +1541,7 @@ app.post('/updatepaymentstatusot', (req, res) => {
   connection.getConnection((err, con) => {
     // for (let i = 0; i < req.body.length; i++) {
     if (err) throw err
-    var sql = `UPDATE holiday SET payment_status_ot = '${req.body.payment_status}', payment_date_st_ot = '${req.body.payment_date}' WHERE DEPARTURE_DATETIME BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    var sql = `UPDATE holiday SET payment_status_ot = '${req.body.payment_status}' WHERE payment_date_st_ot = '${req.body.payment_date}';`;
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
       if (err) {
@@ -1460,7 +1568,7 @@ app.post('/updatepaymentstatusot2', (req, res) => {
   connection.getConnection((err, con) => {
     // for (let i = 0; i < req.body.length; i++) {
     if (err) throw err
-    var sql = `UPDATE welfare SET payment_status_ot = '${req.body.payment_status}', payment_date_st_ot = '${req.body.payment_date}' WHERE DEPARTURE_DATETIME BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    var sql = `UPDATE welfare SET payment_status_ot = '${req.body.payment_status}' WHERE payment_date_st_ot = '${req.body.payment_date}';`;
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
       if (err) {
@@ -1487,7 +1595,7 @@ app.post('/updatepaymentstatusot3', (req, res) => {
   connection.getConnection((err, con) => {
     // for (let i = 0; i < req.body.length; i++) {
     if (err) throw err
-    var sql = `UPDATE tnos_system5 SET payment_status_ot = '${req.body.payment_status}', payment_date_st_ot = '${req.body.payment_date}' WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    var sql = `UPDATE tnos_system5 SET payment_status_ot = '${req.body.payment_status}' WHERE payment_date_st_ot = '${req.body.payment_date}';`;
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
       if (err) {
@@ -1514,7 +1622,7 @@ app.post('/updatepaymentstatusot4', (req, res) => {
   connection.getConnection((err, con) => {
     // for (let i = 0; i < req.body.length; i++) {
     if (err) throw err
-    var sql = `UPDATE instructor_controller SET payment_status_ot = '${req.body.payment_status}', payment_date_st_ot = '${req.body.payment_date}' WHERE DEPARTURE_DATETIME BETWEEN '${req.body.from}' AND '${req.body.to}';`;
+    var sql = `UPDATE instructor_controller SET payment_status_ot = '${req.body.payment_status}' WHERE payment_date_st_ot = '${req.body.payment_date}';`;
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
       if (err) {
@@ -2112,8 +2220,8 @@ app.post('/getdatapayment', (req, res) => {
   console.log('tnosgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance, tnos_system5.payment_status_2 FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE STR_TO_DATE(Working_date, '%d/%m/%Y') BETWEEN ? AND ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;"
-    var value = [req.body.from, req.body.to];
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance, tnos_system5.payment_status_2 FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;"
+    var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code AND STR_TO_DATE(tnos_system5.Working_date, '%d/%m/%Y') BETWEEN ? AND ? GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
     connection.query(sql, value, (err, result, fields) => {
@@ -2135,8 +2243,8 @@ app.post('/getdatapayment2', (req, res) => {
   console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
-    var value = [req.body.from, req.body.to];
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
+    var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,welfare.total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code GROUP BY welfare.DRIVER1;", (err, result, fields) => {
     if (err) throw err
     connection.query(sql, value, (err, result, fields) => {
@@ -2158,8 +2266,8 @@ app.post('/getdatapayment21', (req, res) => {
   console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
-    var value = [req.body.from, req.body.to];
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
+    var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,welfare.total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code GROUP BY welfare.DRIVER1;", (err, result, fields) => {
     if (err) throw err
     connection.query(sql, value, (err, result, fields) => {
@@ -2181,8 +2289,8 @@ app.post('/getdatapayment3', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on instructor_controller.DRIVER1 = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
-    var value = [req.body.from, req.body.to];
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on instructor_controller.DRIVER1 = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
+    var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE DATE(recieve_job_dateandtime) BETWEEN ? AND ? AND tnos_system5.payment_status_2 is NULL GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
     connection.query(sql, value, (err, result, fields) => {
@@ -2204,8 +2312,8 @@ app.post('/getdatapayment31', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE DATE(DEPARTURE_DATETIME) BETWEEN ? AND ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
-    var value = [req.body.from, req.body.to];
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
+    var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE DATE(recieve_job_dateandtime) BETWEEN ? AND ? AND tnos_system5.payment_status_2 is NULL GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
     connection.query(sql, value, (err, result, fields) => {
