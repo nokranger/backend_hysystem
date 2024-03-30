@@ -1077,12 +1077,12 @@ app.post('/addpaymentstatus4', (req, res) => {
 app.post('/addpaymentstatus22', (req, res) => {
   const rows = []
   let count = 0
-  console.log('update', req.body)
+  console.log('updateExportWelfare', req.body)
   // console.log('instructorgetdata', rows)
   connection.getConnection((err, con) => {
     // for (let i = 0; i < req.body.length; i++) {
     if (err) throw err
-    var sql = `UPDATE welfare SET payment_status_3 = '${req.body.payment_status}', payment_date_st_2 = '${req.body.payment_date}' WHERE payment_date_st = '${req.body.payment_date}'`;
+    var sql = `UPDATE welfare SET payment_status_3 = '${req.body.payment_status}', payment_date_st_2 = '${req.body.payment_date}' WHERE payment_date_st = '${req.body.payment_date}' AND payment_status_3 = 0`;
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
       if (err) {
@@ -1104,12 +1104,12 @@ app.post('/addpaymentstatus22', (req, res) => {
 app.post('/addpaymentstatus32', (req, res) => {
   const rows = []
   let count = 0
-  console.log('update', req.body)
+  console.log('updateExportTnos', req.body)
   // console.log('instructorgetdata', rows)
   connection.getConnection((err, con) => {
     // for (let i = 0; i < req.body.length; i++) {
     if (err) throw err
-    var sql = `UPDATE tnos_system5 SET payment_status_3 = '${req.body.payment_status}', payment_date_st_2 = '${req.body.payment_date}' WHERE payment_date_st = '${req.body.payment_date}'`;
+    var sql = `UPDATE tnos_system5 SET payment_status_3 = '${req.body.payment_status}', payment_date_st_2 = '${req.body.payment_date}' WHERE payment_date_st = '${req.body.payment_date}' AND payment_status_3 = 0`;
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
       if (err) {
@@ -1131,12 +1131,12 @@ app.post('/addpaymentstatus32', (req, res) => {
 app.post('/addpaymentstatus42', (req, res) => {
   const rows = []
   let count = 0
-  console.log('update', req.body)
+  console.log('updateExportInstruct', req.body)
   // console.log('instructorgetdata', rows)
   connection.getConnection((err, con) => {
     // for (let i = 0; i < req.body.length; i++) {
     if (err) throw err
-    var sql = `UPDATE instructor_controller SET payment_status_3 = '${req.body.payment_status}', payment_date_st_2 = '${req.body.payment_date}' WHERE payment_date_st = '${req.body.payment_date}';`;
+    var sql = `UPDATE instructor_controller SET payment_status_3 = '${req.body.payment_status}', payment_date_st_2 = '${req.body.payment_date}' WHERE payment_date_st = '${req.body.payment_date}' AND payment_status_3 = 0;`;
     if (err) throw err
     connection.query(sql, (err, result, fields) => {
       if (err) {
