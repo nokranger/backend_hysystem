@@ -645,7 +645,7 @@ app.post('/getdataattach9', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT tnos_system5.ttt_employee_code ,tnos_system5.tlep_driver_name, sum(tnos_system5.total_ot) as total_ot FROM tnos_system5 WHERE DATE(tnos_system5.Working_date) BETWEEN ? AND ? AND payment_status_ot != 1 AND total_ot != 0 AND total_ot IS NOT NULL GROUP BY tnos_system5.ttt_employee_code;"
+    var sql = "SELECT tnos_system5.ttt_employee_code ,tnos_system5.tlep_driver_name, sum(tnos_system5.total_ot) as total_ot FROM tnos_system5 WHERE DATE(tnos_system5.Working_date) BETWEEN ? AND ? AND payment_status_ot != 1 AND total_ot != 0 GROUP BY tnos_system5.ttt_employee_code;"
     var value = [req.body.from, req.body.to];
     // connection.query("SELECT tnos_system5.ttt_employee_code ,tnos_system5.tlep_driver_name, sum(tnos_system5.total_ot) as total_ot FROM tnos_system5 GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
