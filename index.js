@@ -2047,7 +2047,7 @@ app.post('/getdatapayment', (req, res) => {
   console.log('tnosgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance, tnos_system5.payment_status_2 FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name , ROUND(sum(tnos_system5.total_allowance), 2) AS total_allowance, tnos_system5.payment_status_2 FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;"
     var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code AND DATE(tnos_system5.Working_date) BETWEEN ? AND ? GROUP BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
@@ -2070,7 +2070,7 @@ app.post('/getdatapayment2', (req, res) => {
   console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name , ROUND(sum(welfare.total_allowance), 2) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(welfare.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
     var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,welfare.total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code GROUP BY welfare.DRIVER1;", (err, result, fields) => {
     if (err) throw err
@@ -2093,7 +2093,7 @@ app.post('/getdatapayment21', (req, res) => {
   console.log('welfaregetdata', [req.body.from, req.body.to])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(welfare.total_allowance) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name , ROUND(sum(welfare.total_allowance), 2) AS total_allowance, welfare.payment_status_2 FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY welfare.DRIVER1 ORDER BY welfare.DRIVER1;"
     var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,welfare.total_allowance FROM welfare INNER JOIN employee on welfare.DRIVER1 = employee.emp_code GROUP BY welfare.DRIVER1;", (err, result, fields) => {
     if (err) throw err
@@ -2116,7 +2116,7 @@ app.post('/getdatapayment3', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on instructor_controller.DRIVER1 = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name , ROUND(sum(instructor_controller.total_allowance), 2) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on instructor_controller.DRIVER1 = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
     var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE DATE(recieve_job_dateandtime) BETWEEN ? AND ? AND tnos_system5.payment_status_2 is NULL GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
@@ -2139,7 +2139,7 @@ app.post('/getdatapayment31', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(instructor_controller.total_allowance) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
+    var sql = "SELECT employee.bank_account_number, employee.emp_code, employee.name , ROUND(sum(instructor_controller.total_allowance), 2) AS total_allowance, instructor_controller.payment_status_2 FROM instructor_controller INNER JOIN employee on CONCAT( SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), 3, 5), SUBSTRING(REPLACE(instructor_controller.DRIVER1, ' ', ''), -1) ) = employee.emp_code WHERE payment_date_st = ? AND payment_status_2 = 1 AND payment_status_3 != 1 GROUP BY instructor_controller.DRIVER1 ORDER BY instructor_controller.DRIVER1;"
     var value = [req.body.payment_date];
     // connection.query("SELECT employee.bank_account_number, employee.emp_code, employee.name ,sum(tnos_system5.total_allowance) AS total_allowance FROM tnos_system5 INNER JOIN employee on tnos_system5.ttt_employee_code = employee.emp_code WHERE DATE(recieve_job_dateandtime) BETWEEN ? AND ? AND tnos_system5.payment_status_2 is NULL GROUP BY tnos_system5.ttt_employee_code ORDER BY tnos_system5.ttt_employee_code;", (err, result, fields) => {
     if (err) throw err
