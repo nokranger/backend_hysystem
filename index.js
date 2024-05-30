@@ -2877,6 +2877,72 @@ app.post('/pgetdataattach831t4', (req, res) => {
   })
   console.log('done selected')
 })
+app.post('/editotholiday', (req, res) => {
+  const rows = []
+  let count = 0
+  console.log('update', req.body)
+  // console.log('instructorgetdata', rows)
+  connection.getConnection((err, con) => {
+    for (let i = 0; i < req.body.length; i++) {
+    if (err) throw err
+    var sql = `UPDATE holiday SET  OT_HOURS = ? WHERE TRIP_NO = ?;`;
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        return res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+          return res.status(200).json({
+            result: '1'
+          });
+      }
+    })
+    // con.release()
+    count++
+  }
+  if (count === req.body.length) {
+    return res.status(200).json({
+      result: 'success'
+    });
+  }
+  con.release()
+  })
+  console.log('done selected')
+})
+app.post('/editottnos', (req, res) => {
+  const rows = []
+  let count = 0
+  console.log('update', req.body)
+  // console.log('instructorgetdata', rows)
+  connection.getConnection((err, con) => {
+    // for (let i = 0; i < req.body.length; i++) {
+    if (err) throw err
+    var sql = `UPDATE tnos_system5 SET over_ot = ${req.body.over_ot} WHERE calling_sheet_no = '${req.body.calling_sheet_no}' and ttt_employee_code = '${req.body.employee_code}';`;
+    if (err) throw err
+    connection.query(sql, (err, result, fields) => {
+      if (err) {
+        console.error('Error inserting rows:', err);
+        return res.status(500).send('Internal Server Error');
+      } else {
+        console.log(`Inserted ${result.affectedRows} rows successfully`);
+          return res.status(200).json({
+            result: '1'
+          });
+      }
+    })
+    // con.release()
+    count++
+  // }
+  if (count === req.body.length) {
+    return res.status(200).json({
+      result: 'success'
+    });
+  }
+  con.release()
+  })
+  console.log('done selected')
+})
 app.get('/pdfget', (req, res) => {
   fs.readFile('./pdf.html', function (err, html) {
     if (err) {
