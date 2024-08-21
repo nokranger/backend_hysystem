@@ -1679,7 +1679,7 @@ app.post('/deletewelfare', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = "DELETE FROM `welfare` WHERE create_time = ?"
+    var sql = "DELETE FROM `welfare` WHERE event_timestamp = ?"
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1699,10 +1699,10 @@ app.post('/deletewelfare', (req, res) => {
   console.log('done selected')
 })
 app.post('/deleteinstructor', (req, res) => {
-  console.log('instructorgetdata')
+  console.log('instructorgetdata', [req.body.create_time])
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = 'DELETE FROM `instructor_controller` WHERE create_time = ?'
+    var sql = 'DELETE FROM `instructor_controller` WHERE event_timestamp = ?'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1725,7 +1725,7 @@ app.post('/deletetnos', (req, res) => {
   console.log('instructorgetdata', req.body.create_time)
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = 'DELETE FROM `tnos_system5` WHERE create_time = ?'
+    var sql = 'DELETE FROM `tnos_system5` WHERE event_timestamp = ?'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1748,7 +1748,7 @@ app.post('/deleteholiday', (req, res) => {
   console.log('instructorgetdata', req.body.create_time)
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = 'DELETE FROM `holiday` WHERE create_time = ?'
+    var sql = 'DELETE FROM `holiday` WHERE event_timestamp = ?'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1771,7 +1771,7 @@ app.get('/selectdeletetnos', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = 'SELECT DISTINCT max(create_time) as create_time FROM tnos_system5;'
+    var sql = 'SELECT DISTINCT max(event_timestamp) as create_time FROM tnos_system5;'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1794,7 +1794,7 @@ app.get('/selectdeletewelfare', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = 'SELECT DISTINCT max(create_time) as create_time FROM welfare;'
+    var sql = 'SELECT DISTINCT max(event_timestamp) as create_time FROM welfare;'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1817,7 +1817,7 @@ app.get('/selectdeleteinstructor', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = 'SELECT DISTINCT max(create_time) as create_time FROM instructor_controller;'
+    var sql = 'SELECT DISTINCT max(event_timestamp) as create_time FROM instructor_controller;'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
@@ -1840,7 +1840,7 @@ app.get('/selectdeleteholiday', (req, res) => {
   console.log('instructorgetdata')
   connection.getConnection((err, con) => {
     if (err) throw err
-    var sql = 'SELECT DISTINCT max(create_time) as create_time FROM holiday;'
+    var sql = 'SELECT DISTINCT max(event_timestamp) as create_time FROM holiday;'
     var value = [req.body.create_time];
     // connection.query("SELECT tnos_system5.recieve_job_dateandtime, tnos_system5.calling_sheet_no ,tnos_system5.total_allowance, tnos_system5.company_name, tnos_system5.total_ot, tnos_system5.ttt_employee_code FROM tnos_system5", (err, result, fields) => {
     if (err) throw err
